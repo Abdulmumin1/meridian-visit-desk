@@ -1,0 +1,4 @@
+# Copy to .dev.vars. Never commit .dev.vars.
+PAYSTACK_SECRET_KEY=sk_test_xxx
+MCP_BEARER_TOKEN=generate-a-long-random-string
+CONSOLE_TOKEN=generate-another-long-random-string

@@ -1,0 +1,31 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "meridian-visit-desk",
+  "main": "src/worker/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  "assets": {
+    "not_found_handling": "single-page-application",
+    // API, MCP, webhook and health routes always hit the Worker; everything else is the React console.
+    "run_worker_first": ["/mcp", "/mcp/*", "/api/*", "/webhooks/*", "/health", "/l/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "meridian",
+      "database_id": "30788435-9af7-41d3-9f9f-fbd9bf556f7f",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "AGENCY_NAME": "Meridian Homes",
+    "VISIT_FEE_KOBO": "500000",
+    "HOLD_MINUTES": "15",
+    "PAYSTACK_BASE_URL": "https://api.paystack.co"
+  }
+  // Secrets (set with `wrangler secret put`, never committed):
+  //   PAYSTACK_SECRET_KEY  Paystack TEST secret key (sk_test_...)
+  //   MCP_BEARER_TOKEN     Bearer token Chord sends to /mcp
+  //   CONSOLE_TOKEN        Token for the coordinator console API
+}
