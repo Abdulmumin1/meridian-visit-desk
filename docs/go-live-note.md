@@ -11,7 +11,23 @@ The booking tools are already built, hosted and running. You don't deploy anythi
 5. **Connect your WhatsApp number** (Channels → Add channel). Until a real number is connected, it only works in the simulator.
 6. **Try it** with the test conversations before telling any buyer.
 
-## 2. What it does, and what must be true first
+## 2. Hosting the tools yourself (optional)
+
+By default, the tools run on my hosting and you only do section 1. If you'd rather own them (so your buyer data never touches my account), whoever handles IT at the agency can host their own copy. It needs a free Cloudflare account and your Paystack keys. The code is in this repo.
+
+1. **Get the code** and install it: `npm install`.
+2. **Create the database:** `npx wrangler d1 create meridian`, then paste the `database_id` it prints into `wrangler.jsonc`.
+3. **Load the tables and your listings:** `npm run db:migrate:remote`. The `db:seed:remote` command loads the 40 made-up demo listings, so skip it and add your real homes to the `listings` table instead (the columns are in `migrations/0001_init.sql`).
+4. **Set the secrets,** each with `npx wrangler secret put <NAME>`:
+   - `PAYSTACK_SECRET_KEY`: your Paystack secret key (use a test key until you're ready for real money)
+   - `MCP_BEARER_TOKEN`: a long random string of your own. Chord will send it with every call.
+   - `CONSOLE_TOKEN`: another long random string, for the visit desk sign-in
+5. **Turn on the visit desk sign-in:** in `wrangler.jsonc`, change `"CONSOLE_OPEN": "true"` to `"false"`.
+6. **Deploy:** `npm run deploy`. It prints your address, like `https://meridian-visit-desk.<you>.workers.dev`.
+7. **Tell Paystack:** in your Paystack dashboard, set the webhook URL to `<your address>/webhooks/paystack`.
+8. **Connect Chord to your copy:** in section 1, step 2, use `<your address>/mcp` and your own `MCP_BEARER_TOKEN` instead of mine.
+
+## 3. What it does, and what must be true first
 
 **What it does.** On WhatsApp, the assistant answers questions about your listings using only the details you've recorded. If something isn't recorded, it says so and adds the question to your queue. It books viewings: it holds a slot for 15 minutes, sends a ₦5,000 Paystack link, and confirms only once Paystack confirms the money. It cancels and refunds by your policy: full refund 24+ hours ahead, fee kept under 24 hours or on a no-show, always a full refund if you cancel or the home is let. Complaints, price disputes, legal and safety matters go straight to a person in Chord.
 
@@ -24,11 +40,11 @@ The booking tools are already built, hosted and running. You don't deploy anythi
 - Reply to handed-over chats in Chord.
 
 **Before real buyers use it:**
-1. **Paystack live keys** on a verified business account. The person hosting the tools swaps the test key for yours and registers the live webhook; someone on your side can see the Paystack dashboard.
+1. **Paystack live keys** on a verified business account. Whoever hosts the tools (me, or you if you followed section 2) swaps the test key for your live key and registers the live webhook; someone on your side can see the Paystack dashboard.
 2. **Your real listings**, with accurate status. The assistant is only as right as this data, and stale "available" homes are the main way it will mislead people.
 3. **Confirm the rules:** the ₦5,000 fee, the 15-minute window, the 24-hour cutoff, how alternatives are chosen, and a refund timeframe you're happy for it to quote (it currently promises none).
 4. **Test handovers on a real phone.** The simulator doesn't show buyers your staff's replies after a handover. Check that they arrive on WhatsApp.
 5. **Named people:** who reads handovers and when, who answers questions daily, and who is alerted when a refund fails or the tools go down. Today nobody is paged; the visit desk shows it, but someone has to look.
 6. **Failure drills:** if Paystack is down, the assistant says nothing was held or charged. If the tools are down, the assistant can't book at all. Decide who tells buyers and how.
-7. **Data protection:** buyer names, emails and chats go to Chord, the tools' host and Paystack, some outside Nigeria. Check your NDPA 2023 obligations and add a privacy notice to the first message.
-8. **Visit desk sign-in.** In this test build, anyone with the visit desk link can open it, because the data is made up. Switch on sign-in (or put it behind your staff logins) before it shows real buyer details or can issue refunds.
+7. **Data protection:** buyer names, emails and chats go to Chord, wherever the tools are hosted and Paystack, some outside Nigeria. Check your NDPA 2023 obligations and add a privacy notice to the first message.
+8. **Visit desk sign-in.** In this test build, anyone with the visit desk link can open it, because the data is made up. Switch on sign-in (step 5 in section 2, or ask me to, or put it behind your staff logins) before it shows real buyer details or can issue refunds.
