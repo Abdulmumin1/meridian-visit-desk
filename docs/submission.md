@@ -11,7 +11,6 @@
 3. **Recording:** https://cap.so/s/ndk4w65q97qne6w
 4. **[Deployment field notes](field-notes.md)**
 5. **[Go-live note](go-live-note.md)**
-6. **[Spec](spec.md)** and **[test plan](test-plan.md)**
 
 ## Where Chord does the work, and where the tools do
 
