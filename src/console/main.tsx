@@ -3,7 +3,7 @@ import { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "sonner";
 import { Shell } from "./components/Shell";
-import { auth } from "./lib/api";
+import { api } from "./lib/api";
 import { usePath } from "./lib/router";
 import { ActivityPage } from "./pages/Activity";
 import { ListingsPage } from "./pages/Listings";
@@ -20,18 +20,30 @@ const queryClient = new QueryClient({
 
 function Console() {
   const path = usePath();
-  const [signedIn, setSignedIn] = useState(() => Boolean(auth.get()));
+  // "checking" until the Worker says whether a sign-in is needed. In demo mode it never is.
+  const [state, setState] = useState<"checking" | "in" | "login">("checking");
+  const [open, setOpen] = useState(false);
+
+  const check = () =>
+    api<{ open: boolean }>("/session")
+      .then((r) => {
+        setOpen(r.open);
+        setState("in");
+      })
+      .catch(() => setState("login"));
 
   useEffect(() => {
+    check();
     const out = () => {
-      setSignedIn(false);
+      setState("login");
       queryClient.clear();
     };
     window.addEventListener("meridian:logout", out);
     return () => window.removeEventListener("meridian:logout", out);
   }, []);
 
-  if (!signedIn) return <Login onSignedIn={() => setSignedIn(true)} />;
+  if (state === "checking") return null;
+  if (state === "login") return <Login onSignedIn={check} />;
 
   let page;
   if (path.startsWith("/visits")) page = <VisitsPage />;
@@ -40,7 +52,7 @@ function Console() {
   else if (path.startsWith("/activity")) page = <ActivityPage />;
   else page = <OverviewPage />;
 
-  return <Shell>{page}</Shell>;
+  return <Shell canSignOut={!open}>{page}</Shell>;
 }
 
 function App() {

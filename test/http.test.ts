@@ -101,6 +101,13 @@ describe("Paystack webhook", () => {
 });
 
 describe("console API", () => {
+  it("is open without a token only when CONSOLE_OPEN is true", async () => {
+    const ctx = createExecutionContext();
+    const open = await worker.fetch(new Request("https://visits.test/api/overview"), { ...env, CONSOLE_OPEN: "true" }, ctx);
+    await waitOnExecutionContext(ctx);
+    expect(open.status).toBe(200);
+  });
+
   it("requires the console token", async () => {
     expect((await call("/api/overview")).status).toBe(401);
     const ok = await call("/api/overview", { headers: { Authorization: "Bearer test-console-token" } });

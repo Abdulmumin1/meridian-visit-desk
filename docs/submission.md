@@ -7,8 +7,8 @@
 ## What to look at
 
 1. **The agent:** *Meridian Homes* teammate on my Chord account, in the WhatsApp simulator. Try "Does 14 Admiralty Way have a borehole, and what's the power like?" then "Can I see it Saturday 11am?"
-2. **Code:** this repo. Start with the [README](../README.md).
-3. **Recording:** _link_
+2. **Code:** this repo. Start with the [README](../README.md). The visit desk console is open at https://meridian-visit-desk.avdorr12345.workers.dev (no sign-in; all data is made up).
+3. **Recording:** https://cap.so/s/ndk4w65q97qne6w
 4. **[Deployment field notes](field-notes.md)**
 5. **[Go-live note](go-live-note.md)**
 6. **[Spec](spec.md)** and **[test plan](test-plan.md)**

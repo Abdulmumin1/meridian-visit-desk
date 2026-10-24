@@ -18,3 +18,4 @@
 5. **Named people:** who reads handovers and when, who answers questions daily, and who is alerted when a refund fails or the tools go down. Today nobody is paged; the console shows it, but someone has to look.
 6. **Failure drills:** if Paystack is down, the assistant says nothing was held or charged. If the tools are down, the assistant can't book at all. Decide who tells buyers and how.
 7. **Data protection:** buyer names, emails and chats go to Chord, Cloudflare and Paystack, some outside Nigeria. Check your NDPA 2023 obligations and add a privacy notice to the first message.
+8. **Console sign-in.** The visit desk console is open to anyone with the link in this test build, because the data is made up. Switch `CONSOLE_OPEN` off so it asks for a token (or put it behind your staff logins) before it shows real buyer details or can issue refunds.

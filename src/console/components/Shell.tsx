@@ -13,7 +13,7 @@ const NAV = [
   { href: "/activity", label: "Activity" },
 ];
 
-export function Shell({ children }: { children: ReactNode }) {
+export function Shell({ children, canSignOut }: { children: ReactNode; canSignOut: boolean }) {
   const path = usePath();
   const now = useNow(15_000);
   const overview = useQuery({ queryKey: ["overview"], queryFn: () => api<Overview>("/overview"), refetchInterval: 4000 });
@@ -47,15 +47,17 @@ export function Shell({ children }: { children: ReactNode }) {
           </nav>
           <div className="ml-auto flex items-center gap-4 text-[12.5px] text-muted">
             <span className="tnum hidden sm:inline">{watTime(now)} WAT</span>
-            <button
-              onClick={() => {
-                auth.clear();
-                window.dispatchEvent(new Event("meridian:logout"));
-              }}
-              className="hover:text-ink"
-            >
-              Sign out
-            </button>
+            {canSignOut && (
+              <button
+                onClick={() => {
+                  auth.clear();
+                  window.dispatchEvent(new Event("meridian:logout"));
+                }}
+                className="hover:text-ink"
+              >
+                Sign out
+              </button>
+            )}
           </div>
         </div>
       </header>

@@ -11,7 +11,7 @@ A buyer asks about a home, picks a time, pays a ₦5,000 visit fee through Payst
 - **Chord** runs the conversation. The skill in `skill/meridian-visit-desk/` sets the agency's voice and rules, and Chord's built-in handover passes chats to a human.
 - **Seven MCP tools** on a Cloudflare Worker do everything else: answer from listing data, hold a slot for 15 minutes, create the Paystack link, confirm on payment, cancel and refund.
 - **Paystack (test mode)** confirms payments by webhook. If the webhook is late, the tools ask Paystack directly.
-- **A small console** at the Worker URL shows visits, listings and questions the agent couldn't answer.
+- **A small console** at the Worker URL shows visits, listings and questions the agent couldn't answer. It has no sign-in in this test build.
 
 The model never decides anything involving money or availability. The tools only confirm a visit when Paystack does, and they apply the refund policy themselves.
 
@@ -30,7 +30,7 @@ npm test                          # acceptance tests T1–T14, with Paystack fak
 ```bash
 npx wrangler d1 create meridian   # put the id in wrangler.jsonc
 npm run db:migrate:remote && npm run db:seed:remote
-npx wrangler secret put PAYSTACK_SECRET_KEY   # also MCP_BEARER_TOKEN and CONSOLE_TOKEN
+npx wrangler secret put PAYSTACK_SECRET_KEY   # also MCP_BEARER_TOKEN
 npm run deploy
 ```
 

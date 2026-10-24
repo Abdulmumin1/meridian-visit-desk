@@ -52,9 +52,10 @@ api.get("/public/payment", async (c) => {
   });
 });
 
-// --- Everything below needs the console token. ---
+// --- Everything below needs the console token, unless CONSOLE_OPEN is "true" (test/demo only). ---
 api.use("*", async (c, next) => {
   if (c.req.path.startsWith("/api/public/")) return next();
+  if (c.env.CONSOLE_OPEN === "true") return next();
   const token = c.env.CONSOLE_TOKEN;
   const given = (c.req.header("authorization") ?? "").replace(/^Bearer\s+/i, "");
   if (!token || !given || !timingSafeEqualStr(given, token)) {
@@ -63,7 +64,7 @@ api.use("*", async (c, next) => {
   return next();
 });
 
-api.get("/session", (c) => c.json({ ok: true, agency: c.env.AGENCY_NAME }));
+api.get("/session", (c) => c.json({ ok: true, agency: c.env.AGENCY_NAME, open: c.env.CONSOLE_OPEN === "true" }));
 
 interface VisitWithListing extends VisitRow {
   listing_title: string;

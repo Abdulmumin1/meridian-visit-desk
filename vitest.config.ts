@@ -14,6 +14,7 @@ export default defineConfig({
           PAYSTACK_BASE_URL: "http://paystack.invalid",
           MCP_BEARER_TOKEN: "test-mcp-token",
           CONSOLE_TOKEN: "test-console-token",
+          CONSOLE_OPEN: "false",
         },
         // Any real outbound call in HTTP tests behaves like Paystack being down.
         outboundService: () =>

@@ -22,7 +22,10 @@
     "AGENCY_NAME": "Meridian Homes",
     "VISIT_FEE_KOBO": "500000",
     "HOLD_MINUTES": "15",
-    "PAYSTACK_BASE_URL": "https://api.paystack.co"
+    "PAYSTACK_BASE_URL": "https://api.paystack.co",
+    // Test/demo only: the console needs no sign-in because all data is made up.
+    // Set to "false" (or remove) before any real buyer data goes in; CONSOLE_TOKEN then applies.
+    "CONSOLE_OPEN": "true"
   }
   // Secrets (set with `wrangler secret put`, never committed):
   //   PAYSTACK_SECRET_KEY  Paystack TEST secret key (sk_test_...)
