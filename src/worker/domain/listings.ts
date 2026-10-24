@@ -184,7 +184,7 @@ export async function searchListings(
     total_matches: results.length,
     listings: results.slice(0, 8).map((l) => {
       const { recorded } = presentAmenities(l.amenities);
-      const highlights = ["Borehole", "Grid power band", "Inverter", "Generator", "Gated estate", "Boys' quarters (BQ)", "Furnishing"]
+      const highlights = ["Grid power band", "Inverter", "Generator", "Gated estate", "Security guards", "CCTV", "Borehole", "Boys' quarters (BQ)", "Furnishing"]
         .filter((k) => recorded[k] && recorded[k] !== "No")
         .map((k) => (recorded[k] === "Yes" ? k : `${k}: ${recorded[k]}`));
       return { ...listingSummary(l), highlights };

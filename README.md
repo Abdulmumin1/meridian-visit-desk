@@ -9,7 +9,7 @@ A buyer asks about a home, picks a time, pays a ₦5,000 visit fee through Payst
 ## Try it
 
 1. Open the [WhatsApp simulator](https://chat.tsglabs.dev) and chat with the **Meridian Homes** teammate.
-2. Ask: *"Does 14 Admiralty Way have a borehole, and what's the power like?"*, then *"Can I see it Saturday 11am?"*
+2. Say: *"i need a house with good electricity and security in lekki"*. Pick one of the homes it suggests, then ask to see it on a weekday at 11am.
 3. Give a name and email, and you'll get a Paystack payment link. Pay with a test card:
 
 | Card number | Expiry / CVV | Result |

@@ -6,7 +6,7 @@
 
 ## What to look at
 
-1. **The agent:** *Meridian Homes* teammate on my Chord account, in the WhatsApp simulator. Try "Does 14 Admiralty Way have a borehole, and what's the power like?" then "Can I see it Saturday 11am?"
+1. **The agent:** *Meridian Homes* teammate on my Chord account, in the WhatsApp simulator. Try "i need a house with good electricity and security in lekki", pick one of the homes it suggests, then ask to see it at 11am on a weekday.
 2. **Code:** this repo. Start with the [README](../README.md). The visit desk console is open at https://meridian-visit-desk.avdorr12345.workers.dev (no sign-in; all data is made up).
 3. **Recording:** https://cap.so/s/ndk4w65q97qne6w
 4. **[Deployment field notes](field-notes.md)**

@@ -8,7 +8,7 @@ Paystack test cards: success `4084 0840 8408 4081` (CVV 408) · declined `4084 0
 
 | # | Say | Expect from the agent | Check in the console |
 |---|---|---|---|
-| T1 | "Does 14 Admiralty Way have a borehole, and what's the power like?" | Borehole yes; Band A; 5 kVA inverter; generator yes | Activity: `get_listing` |
+| T1 | "i need a house with good electricity and security in lekki", then "does 14 Admiralty Way have a borehole, and what's the power like?" | A shortlist of 2–3 homes with the recorded power and security facts and links (`search_listings`). Then: borehole yes; Band A; 5 kVA inverter; generator yes | Activity: `search_listings`, then `get_listing` |
 | T2 | (same message) | Generator size isn't recorded; question logged; "ask me again later" | Questions: new open item. Answer it, ask again in the chat, and the agent now gives the size |
 | T3 | "Can I see it Saturday 11am?" → name + email | Fee mentioned before the hold; "held until HH:MM WAT", ₦5,000, link | Overview: live hold with countdown |
 | T4 | New session, different email: "Saturday 11am at 14 Admiralty Way?" | 11:00 is taken; offers 10:00 / 12:00 / 14:00; never says who has it | No second hold on 11:00 |

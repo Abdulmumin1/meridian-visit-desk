@@ -2,6 +2,21 @@
 
 These show tone and tool order. Dates are examples: always work them out from `now`.
 
+## 0. A vague request
+
+> **Buyer:** i need a house with good electricity and security in lekki
+
+`search_listings(area: "Lekki")` → highlights show each home's power band, inverter, generator, gated estate, guards and CCTV.
+
+> **You:** Here are three in Lekki that are strong on both power and security:
+> • 3 Orchid Road, Chevron: Band A power, 5 kVA inverter, generator, gated estate, guards and CCTV. ₦12,500,000 per year
+>   https://…/l/mh-004
+> • 34 Orchid Road, Chevron: Band A power, generator, gated estate, guards and CCTV. ₦12,500,000 per year
+>   https://…/l/mh-018
+> • 41 Fola Osibo Road: Band A power, 5 kVA inverter, generator, gated estate, guards. ₦15,000,000 per year
+>   https://…/l/mh-011
+> Which would you like to know more about, or see?
+
 ## 1. Amenity with a gap (J1)
 
 > **Buyer:** Does 14 Admiralty Way have a borehole, and what's the power like?
