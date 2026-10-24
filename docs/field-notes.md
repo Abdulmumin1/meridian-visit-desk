@@ -47,7 +47,7 @@ All three parts were made up: the domain (mine is on `workers.dev`), the path (`
 **What I'd change in Chord.**
 - Make the simulator poll the conversation's messages (or push to it) so `system` and `human_operator` messages appear, as its own placeholder promises.
 - Only mark a turn `sent` when a channel actually delivered it. On partner channels, "stored" and "sent" are currently the same.
-- Let the skill set the handover message, or keep the agent's last reply. "Connecting you with a teammate" doesn't say what happens next, which my spec requires (R8).
+- Let the skill set the handover message, or keep the agent's last reply. "Connecting you with a teammate" doesn't say what happens next, which the agency's own handover rule requires.
 
 ## 3. Skill ZIP upload broke the skill's own file references
 
@@ -109,7 +109,7 @@ The last point would also have saved me 10 minutes: my first 403s (`Missing requ
 
 | What I hit | What I did | Suggestion for Chord |
 |---|---|---|
-| **No buyer identity reaches MCP tools.** `tools/call` carries no `_meta` and no sender/thread headers (only `user-agent: Java-http-client/23.0.2` plus Cloudflare headers). Yet the *model* knows the buyer: in a fresh session it opened with "Hello Yaqeen", my simulator display name. The spec's open question #2 is answered: the model gets identity, tools don't. | The agent asks for name and email; visits are looked up by email; `buyer_phone` is optional. | Opt-in `_meta` with sender ID, channel and thread ID, so tools can tie a payment to a WhatsApp number without asking for it. |
+| **No buyer identity reaches MCP tools.** `tools/call` carries no `_meta` and no sender/thread headers (only `user-agent: Java-http-client/23.0.2` plus Cloudflare headers). Yet the *model* knows the buyer: in a fresh session it opened with "Hello Yaqeen", my simulator display name. So the model gets the buyer's identity, but tools don't. | The agent asks for name and email; visits are looked up by email; `buyer_phone` is optional. | Opt-in `_meta` with sender ID, channel and thread ID, so tools can tie a payment to a WhatsApp number without asking for it. |
 | **Replies are text only.** No attachment or media field in any chat or thread schema; the partner chat API is "synchronous text only". | Public listing pages with Open Graph tags; the agent shares the link. WhatsApp's preview bot (`WhatsApp/2.23.20.0`) fetched it within a minute. | Let a tool return an image the channel can send. |
 | **The teammate gets every workspace connector by default** (`enabled_tool_types: [], unscoped: true`). The schema names native `bookings` and `paystack` connectors with `booking.*` webhooks, but `/docs/bookings` returns 404. | Scoped connectors to none (`PUT /tools {enabled_tool_types: [], unscoped: false}`) so only my 7 MCP tools are offered. Built custom because native bookings are undocumented. | Document the native connectors, or hide them from the schema until they are. Default new teammates to scoped. |
 | **Defaults that widen access:** an empty `mcp_server_ids` means all servers; an empty `enabled_tools` means all tools. | Registered the server disabled, set `set_mcp_server_ids` first, then enabled it with an explicit 7-tool allowlist. Registration, discovery (7 tools, 911 ms) and health (`ok`, 21 ms) all worked first time. | Make empty mean empty, with an explicit `"*"` for all. |

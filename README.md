@@ -4,7 +4,7 @@ A Chord teammate that books property viewings on WhatsApp for a (made-up) Lagos 
 
 A buyer asks about a home, picks a time, pays a ₦5,000 visit fee through Paystack, and is confirmed in the same chat. Complaints, price disputes and legal questions go to a person.
 
-**Submission:** [summary](docs/submission.md) · [field notes](docs/field-notes.md) · [go-live note](docs/go-live-note.md) · [original spec](docs/spec.md)
+**Submission:** [summary](docs/submission.md) · [field notes](docs/field-notes.md) · [go-live note](docs/go-live-note.md)
 
 ## Try it
 
@@ -35,8 +35,8 @@ The model never decides anything involving money or availability. The tools only
 skill/        the Chord skill: instructions and reference files
 src/worker/   the tools, the Paystack payment and webhook code, the visit desk's API
 src/console/  the visit desk and the payment result page
-test/         30 acceptance tests covering the spec's T1–T14
-docs/         field notes, go-live note, spec, test plan
+test/         30 automated tests: booking, payment, refund and cancellation scenarios
+docs/         submission summary, field notes, go-live note
 ```
 
 ## How I used AI

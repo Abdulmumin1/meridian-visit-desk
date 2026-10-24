@@ -11,3 +11,5 @@ dist
 # Local-only: setup scripts, logs and recording prep
 scripts/
 docs/demo-script.md
+docs/spec.md
+docs/test-plan.md
