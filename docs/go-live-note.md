@@ -12,7 +12,7 @@
 
 **What must be true before real buyers use it:**
 1. **Paystack live keys** on a verified business account, kept as a Worker secret. The live webhook URL is registered, and someone can see the Paystack dashboard.
-2. **A real WhatsApp number** connected in Chord (Meta Business verification). Until then it only runs in the simulator.
+2. **A real WhatsApp number** connected in Chord (Meta Business verification). Until then it only runs in the simulator, which doesn't show buyers your staff's replies after a handover. Test that those replies reach a real phone.
 3. **Your real listings**, with accurate status. The assistant is only as right as this data, and stale "available" homes are the main way it will mislead people.
 4. **Confirm the rules:** the ₦5,000 fee, the 15-minute window, the 24-hour cutoff, how alternatives are chosen, and a refund timeframe you're happy for it to quote (it currently promises none).
 5. **Named people:** who reads handovers and when, who answers questions daily, and who is alerted when a refund fails or the tools go down. Today nobody is paged; the console shows it, but someone has to look.

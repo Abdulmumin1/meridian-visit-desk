@@ -37,6 +37,7 @@ Extra checks worth recording:
 | T5 | Pass | Confirmed only after Paystack: payment 11:05:43 → `get_visit_status` 11:05:54 → "Confirmed ✅" |
 | T12 | Pass | 11:27–11:28: agent warned the fee is kept before acting, asked to confirm, `cancel_visit` → `buyer_cancelled_under_24h`, ₦0 refunded, slot reopened |
 | T14 | Pass | Unsigned webhook → HTTP 401, activity "Rejected a webhook with an invalid signature", no state change |
+| T13 | Partial | Agent handed over correctly (`handover_to_human`, reason logged, thread `human_active`) and named no price. But the simulator never shows the handover message or the operator's reply (field notes #2). |
 | Photos | Fixed | 11:11 the agent invented a listing URL (see field notes #1); after skill v3, 11:16 it called `get_listing` first |
 
-Still to run in the simulator: T1/T2 (14 Admiralty Way), T4, T6, T7, T8, T9, T10, T11, T13.
+Still to run in the simulator: T1/T2 (14 Admiralty Way), T4, T6, T7, T8, T9, T10, T11.

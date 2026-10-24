@@ -24,7 +24,32 @@ All three parts were made up: the domain (mine is on `workers.dev`), the path (`
 - Add an optional reply guard that flags or blocks any URL that didn't appear in a tool result or the skill.
 - Show a "no tools called" marker in the conversation view, so builders can spot answers made without tools.
 
-## 2. Skill ZIP upload broke the skill's own file references
+## 2. After a handover, the buyer sees nothing in the simulator
+
+**What happened.**
+- Saturday 10:57: as a buyer, I asked "would i get a discount on the house?". The agent correctly handed over to a human, since price negotiation is out of scope.
+- The simulator showed only its placeholder: "No reply yet. If someone has taken over in Chord, their reply will appear here."
+- In Chord's operator view, the same conversation shows a handover message, "One moment — connecting you with a teammate.", which never reached the simulator.
+- On Friday at 17:58 the same thing happened with a price dispute. I replied as the operator in Chord ("sorry about that, but our pricing has been updated") and handed back at 17:59. **The reply never appeared in the simulator either.**
+
+![The simulator after the handover: no reply, only the placeholder](images/handover-simulator.png)
+
+![Chord's operator view of the same conversation: the handover message exists](images/handover-chord.png)
+
+**How I found the cause.** I read both threads through the API (`GET /v1/threads/{id}/turns` and `/control-events`):
+- **Handover:** the agent called `handover_to_human` with a sensible reason ("Buyer asked whether they would get a discount on 41 Herbert Macaulay Way… price negotiation"), and the thread moved from `agent_active` to `human_active`.
+- **Messages:** after the buyer's message there is a `system` turn (the "connecting you" text), and on Friday a `human_operator` turn (my reply). **Both have `delivery_status: "sent"`**, yet neither reached the buyer.
+- **The agent's own reply is dropped.** My skill tells the agent to write "I'm passing this to our coordinator, who will reply in this chat" before handing over. There is no agent turn at all; Chord replaces it with its fixed text.
+- **Likely cause:** the simulator talks to Chord through the partner API, which is send-and-reply only. A turn that ends in a handover returns no reply, and anything written later (the acknowledgement, the operator's reply) can only be read by polling the conversation's message history. The simulator doesn't seem to do that, or doesn't show `system` and `human_operator` messages.
+
+**Fix.** I can't fix this from my side. The handover itself works, and I tested it in Chord's operator view. For the demo I show the Chord side. On a real WhatsApp channel, delivery of operator replies needs testing before go-live.
+
+**What I'd change in Chord.**
+- Make the simulator poll the conversation's messages (or push to it) so `system` and `human_operator` messages appear, as its own placeholder promises.
+- Only mark a turn `sent` when a channel actually delivered it. On partner channels, "stored" and "sent" are currently the same.
+- Let the skill set the handover message, or keep the agent's last reply. "Connecting you with a teammate" doesn't say what happens next, which my spec requires (R8).
+
+## 3. Skill ZIP upload broke the skill's own file references
 
 **What happened.**
 - I zipped the skill folder (`meridian-visit-desk/SKILL.md`, `meridian-visit-desk/references/…`) and uploaded it in **Create a teammate**.
@@ -42,7 +67,7 @@ All three parts were made up: the domain (mine is on `workers.dev`), the path (`
 - Strip a single top-level folder on upload, as most ZIP-based uploaders do.
 - At review, check every path the instructions mention against the package and warn on misses.
 
-## 3. Couldn't find the workspace ID, and real IDs don't look like the docs
+## 4. Couldn't find the workspace ID, and real IDs don't look like the docs
 
 **What happened.**
 - Every MCP-server endpoint is `/v1/workspaces/{workspace_id}/…`, but I couldn't find the workspace ID anywhere in the app. My first thought was that it might be my email.
@@ -59,7 +84,7 @@ All three parts were made up: the domain (mine is on `workers.dev`), the path (`
 
 The last point would also have saved me 10 minutes: my first 403s (`Missing required permission: teammate:read`, request `ad2f7eb8-…`) turned out to be an unsaved `.env` file on my side. With no way to ask "what can this key do?", a wrong key and an under-scoped key look identical.
 
-## 4. Autonomy: chosen at creation, no visible effect, and can't be changed by API
+## 5. Autonomy: chosen at creation, no visible effect, and can't be changed by API
 
 **What happened.**
 - The **Review your teammate** screen asks for an autonomy level: *Suggest, I approve* / *Work with me* / *Act independently*. I picked **Work with me**. The screen doesn't say what each level means for a customer-facing agent.
